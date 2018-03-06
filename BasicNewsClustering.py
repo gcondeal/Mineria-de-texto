@@ -62,7 +62,8 @@ if __name__ == "__main__":
             origen = bsObj.find(text=lambda text:isinstance(text, Comment))
             if "saved from url" in origen: # puedo identificar desde donde se ha descargado la página
                 if "www.theguardian.com" in origen:
-                    titulo = bsObj.select('#article > div:nth-of-type(2) > div > div:nth-of-type(1) > div > header > div:nth-of-type(3) > div:nth-of-type(1) > div > h1')[0].text
+                    #titulo = bsObj.select('#article > div:nth-of-type(2) > div > div:nth-of-type(1) > div > header > div:nth-of-type(3) > div:nth-of-type(1) > div > h1')[0].text
+                    titulo = bsObj.find('h1', attrs={'articleprop' : 'headline'}).text
                     titulo = titulo.replace("\n","")
                     f2 = open(folder+"/txt/"+titulo+".txt", "w")
                     f2.write("tratado")
