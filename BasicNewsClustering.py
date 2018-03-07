@@ -63,17 +63,103 @@ if __name__ == "__main__":
             if "saved from url" in origen: # puedo identificar desde donde se ha descargado la página
                 if "www.theguardian.com" in origen:
                     #titulo = bsObj.select('#article > div:nth-of-type(2) > div > div:nth-of-type(1) > div > header > div:nth-of-type(3) > div:nth-of-type(1) > div > h1')[0].text
-                    titulo = bsObj.find('h1', attrs={'articleprop' : 'headline'}).text
+                    titulo = bsObj.find('h1', attrs={'class' : 'content__headline'}).text
                     titulo = titulo.replace("\n","")
+
                     f2 = open(folder+"/txt/"+titulo+".txt", "w")
-                    f2.write("tratado")
+
+                    for parrafo in bsObj.find('div', attrs={'itemprop' : 'articleBody'}).findAll('p'):
+                        f2.write(parrafo.text)
+
+                    f2.close()
+
+                if "www.telegraph.co.uk" in origen:
+                    titulo = bsObj.find('h1', attrs={'itemprop' : 'headline name'}).text
+                    titulo = titulo.replace("\n", "")
+
+                    f2 = open(folder + "/txt/" + titulo + ".txt", "w")
+
+                    for parrafo in bsObj.find('article', attrs={'itemprop': 'articleBody'}).findAll('p'):
+                        f2.write(parrafo.text)
+
+                    f2.close()
+
+                if "www.abc.es" in origen:
+                    titulo = bsObj.find('span', attrs={'class': 'titular'}).text
+                    titulo = titulo.replace("\n", "")
+
+                    f2 = open(folder + "/txt/" + titulo + ".txt", "w")
+
+                    for parrafo in bsObj.find('span', attrs={'class': 'cuerpo-texto'}).findAll('p'):
+                        f2.write(parrafo.text)
+
+                    f2.close()
+
+                if "www.nytimes.com" in origen:
+                    titulo = bsObj.find('h1', attrs={'itemprop': 'headline'}).text
+                    titulo = titulo.replace("\n", "")
+
+                    f2 = open(folder + "/txt/" + titulo + ".txt", "w")
+
+                    for parrafo in bsObj.find('div', attrs={'class': 'story-body'}).findAll('p'):
+                        f2.write(parrafo.text)
+
+                    f2.close()
+
+                if "elpais.com" in origen:
+                    titulo = bsObj.find('h1', attrs={'itemprop': 'headline'}).text
+                    titulo = titulo.replace("\n", "")
+
+                    f2 = open(folder + "/txt/" + titulo + ".txt", "w")
+
+                    subtitulo = bsObj.find('h2', attrs={'itemprop': 'alternativeHeadline'}).text
+                    subtitulo = subtitulo.replace("\n", "")
+                    f2.write(subtitulo)
+
+                    for parrafo in bsObj.find('div', attrs={'itemprop': 'articleBody'}).findAll('p'):
+                        f2.write(parrafo.text)
+
                     f2.close()
 
 
+                if "www.elmundo.es" in origen:
+                    titulo = bsObj.find('h1', attrs={'itemprop': 'headline'}).text
+                    titulo = titulo.replace("\n", "")
+
+                    f2 = open(folder + "/txt/" + titulo + ".txt", "w")
 
 
+                    for parrafo in bsObj.find('div', attrs={'itemprop': 'articleBody'}).findAll('p'):
+                        f2.write(parrafo.text)
 
+                    f2.close()
 
+                if "www.bbc.com" in origen:
+                    titulo = bsObj.find('h1', attrs={'class': 'story-body__h1'}).text
+                    titulo = titulo.replace("\n", "")
+                    titulo = titulo.replace(":", " _ ")
+
+                    f2 = open(folder + "/txt/" + titulo + ".txt", "w")
+
+                    for parrafo in bsObj.find('div', attrs={'property': 'articleBody'}).findAll('p'):
+                        f2.write(parrafo.text)
+
+                    f2.close()
+
+                if "www.lavozdegalicia.es" in origen:
+                    titulo = bsObj.find('h1', attrs={'itemprop': 'headline'}).text
+                    titulo = titulo.replace("\n", "")
+
+                    f2 = open(folder + "/txt/" + titulo + ".txt", "w")
+
+                    subtitulo = bsObj.find('h2', attrs={'itemprop': 'alternativeHeadline'}).text
+                    subtitulo = subtitulo.replace("\n", "")
+                    f2.write(subtitulo)
+
+                    for parrafo in bsObj.find('div', attrs={'itemprop': 'text'}).findAll('p'):
+                        f2.write(parrafo.text)
+
+                    f2.close()
     # for file in listing:
     #     #print("File: ",file)
     #     if file.endswith(".txt"):
