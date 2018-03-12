@@ -67,6 +67,8 @@ def tratamientoHTML(folderOrigen, folderDestino):
             bsObj = BeautifulSoup(f, "html.parser")
             f.close()
 
+            cad_inicio = None
+            cad_fin = None
 
             origen = bsObj.find(text=lambda text:isinstance(text, Comment))
             if "saved from url" in origen: # puedo identificar desde donde se ha descargado la página
@@ -74,6 +76,9 @@ def tratamientoHTML(folderOrigen, folderDestino):
                 titulo = None
                 subtitulo = None
                 objBody = None
+
+                cad_inicio = '/* dynamic basic css */'
+                cad_fin = 'OBR.extern.researchWidget();'
 
                 if "www.theguardian.com" in origen:
                     hayQueTratar = True
@@ -84,6 +89,8 @@ def tratamientoHTML(folderOrigen, folderDestino):
                     hayQueTratar = True
                     titulo = bsObj.find('h1', attrs={'itemprop' : 'headline name'}).text
                     objBody = bsObj.find('article', attrs={'itemprop': 'articleBody'})
+                    cad_inicio = '/* dynamic basic css */'
+                    cad_fin = 'OBR.extern.researchWidget();'
 
                 elif "www.abc.es" in origen:
                     hayQueTratar = True
@@ -151,7 +158,17 @@ def tratamientoHTML(folderOrigen, folderDestino):
 
                     if objBody != None:
                         for parrafo in objBody.findAll('p'):
-                            f2.write(parrafo.text + "\n")
+                            aux = parrafo.text
+
+                            if cad_inicio != None and cad_fin != None:
+
+                                pos_inicio = aux.find(cad_inicio)
+                                pos_fin = aux.find(cad_fin) + len(cad_fin)
+
+                                if pos_inicio != -1 or pos_fin != -1:
+                                    aux = aux[:pos_inicio] + aux[pos_fin:]
+
+                            f2.write(aux + "\n")
 
                     f2.close()
 
@@ -242,7 +259,7 @@ if __name__ == "__main__":
     # Empty list to hold text documents.
     texts = []
 
-    #tratamientoHTML(folder, folder + "/txt")
+    tratamientoHTML(folder, folder + "/txt")
 
     listing = os.listdir(folder + "/txt")
     for file in listing:
