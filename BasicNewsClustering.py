@@ -77,9 +77,6 @@ def tratamientoHTML(folderOrigen, folderDestino):
                 subtitulo = None
                 objBody = None
 
-                cad_inicio = '/* dynamic basic css */'
-                cad_fin = 'OBR.extern.researchWidget();'
-
                 if "www.theguardian.com" in origen:
                     hayQueTratar = True
                     titulo = bsObj.find('h1', attrs={'class' : 'content__headline'}).text
@@ -151,6 +148,7 @@ def tratamientoHTML(folderOrigen, folderDestino):
                     titulo = titulo.replace(":", " _ ")
 
                     f2 = open(folderDestino + "/" + titulo + ".txt", "w")
+                    f2.write(titulo + "\n")
 
                     if subtitulo != None:
                         subtitulo = subtitulo.replace("\n", "")
@@ -280,15 +278,15 @@ if __name__ == "__main__":
             tokens = nltk.word_tokenize(raw_limpio)
             tokens_limpio = limpia_stop_words(tokens, idioma)
 
-            #text = nltk.Text(trata_entity_names(tokens_limpio))
-
             #text = nltk.Text(stemming(tokens_limpio, idioma))
 
             #text = nltk.Text(lemmatization(tokens_limpio, idioma))
 
             #text = nltk.Text(stemming(lemmatization(tokens_limpio, idioma),idioma))
 
-            text = nltk.Text(stemming(trata_entity_names(tokens_limpio), idioma))
+            #text = nltk.Text(trata_entity_names(tokens_limpio))
+
+            #text = nltk.Text(stemming(trata_entity_names(tokens_limpio), idioma))
 
             #text = nltk.Text(tokens_limpio)
 
