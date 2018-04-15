@@ -286,7 +286,7 @@ if __name__ == "__main__":
 
             #text = nltk.Text(trata_entity_names(tokens_limpio))
 
-            #text = nltk.Text(stemming(trata_entity_names(tokens_limpio), idioma))
+            text = nltk.Text(stemming(trata_entity_names(tokens_limpio), idioma))
 
             #text = nltk.Text(tokens_limpio)
 
